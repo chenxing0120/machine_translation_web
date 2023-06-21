@@ -11,7 +11,7 @@
           <Words></Words>
         </el-tab-pane>
         <el-tab-pane label="成语翻译" name="third">
-          <Idiom></Idiom>
+          <Idioms></Idioms>
         </el-tab-pane>
       </el-tabs>
     </div></el-col>
@@ -23,13 +23,13 @@
 
 import Translate from "@/views/Translate";
 import Words from "@/views/Words";
-// import Idioms from "@/views/Idioms";
-import Idiom from "@/views/Idiom";
+import Idioms from "@/views/Idioms";
+
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
-  components: {Words, Translate, Idiom},
+  components: {Words, Translate, Idioms},
   computed: {
 
   },
