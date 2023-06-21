@@ -1,91 +1,118 @@
-<!--<template>-->
-<!--  <div>-->
-<!--    <textarea v-model="inputText" placeholder="请输入文本"></textarea>-->
-<!--    <button @click="searchIdioms">查询</button>-->
+<template>
+  <div class="idiom-translation">
+    <el-row justify="center">
+      <el-col :span="24">
+        <el-form :model="idiomsForm" label-width="80px" class="input-form">
+          <el-form-item label="输入文本">
+            <el-input v-model="idiomsForm.inputText" type="textarea" :rows="5" resize="none" placeholder="请输入文本内容"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="translate">查询</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
 
-<!--    <div class="highlighted-text">-->
-<!--      {{ highlightedText }}-->
-<!--    </div>-->
 
-<!--    <div class="idiom-card" v-for="idiom in idioms" :key="idiom.idiom">-->
-<!--      <div class="idiom-header">{{ idiom.idiom }}</div>-->
-<!--      <div class="idiom-info">-->
-<!--        <div><strong>拼音：</strong>{{ idiom.pinyin }}</div>-->
-<!--        <div><strong>释义：</strong>{{ idiom.translation }}</div>-->
-<!--        <div><strong>出处：</strong>{{ idiom.source }}</div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
+    <div v-if="idioms.length > 0">
+      <el-card v-for="idiom in idioms" :key="idiom.idiom">
+        <div>
+          <span class="label">成语：</span>
+          <span class="idiom">{{ idiom.idiom }}</span>
+        </div>
+        <div>
+          <span class="label">拼音：</span>
+          <span>{{ idiom.pinyin }}</span>
+        </div>
+        <div>
+          <span class="label">翻译：</span>
+          <span>{{ idiom.translation }}</span>
+        </div>
+        <div>
+          <span class="label">出处：</span>
+          <span>{{ idiom.source }}</span>
+        </div>
+      </el-card>
+    </div>
+    <div v-else>
+      <p>没有找到匹配的成语。</p>
+    </div>
 
-<!--<script>-->
-<!--// import axios from 'axios';-->
+  </div>
+</template>
 
-<!--export default {-->
-<!--  // eslint-disable-next-line vue/multi-word-component-names-->
-<!--  name: "Idioms",-->
-<!--  data() {-->
-<!--    return {-->
-<!--      inputText: '',-->
-<!--      highlightedText: '',-->
-<!--      idioms: [],-->
-<!--    };-->
-<!--  },-->
-<!--  methods: {-->
-<!--    async searchIdioms() {-->
-<!--      try {-->
-<!--        const response = await this.$axios.post('/api/search', { text: this.inputText });-->
-<!--        this.idioms = response.data;-->
+<script>
+export default {
+  name: "IdiomTranslation",
+  data() {
+    return {
+      idiomsForm: {
+        inputText: "",
+      },
+      idioms: [],
+    };
+  },
+  methods: {
+    translate() {
+      this.idioms = [];
+      this.highlightedText = "";
+      if (this.idiomsForm.inputText === "") {
+        this.$message.warning("请输入文本内容");
+        return;
+      }
 
-<!--        // 高亮显示成语-->
-<!--        this.highlightIdioms();-->
-<!--      } catch (error) {-->
-<!--        console.error(error);-->
-<!--      }-->
-<!--    },-->
-<!--    highlightIdioms() {-->
-<!--      let highlightedText = this.inputText;-->
-<!--      for (const idiom of this.idioms) {-->
-<!--        const regex = new RegExp(idiom.idiom, 'g');-->
-<!--        highlightedText = highlightedText.replace(regex, `<span class="highlight">${idiom.idiom}</span>`);-->
-<!--      }-->
-<!--      this.highlightedText = highlightedText;-->
-<!--    },-->
-<!--  },-->
-<!--};-->
-<!--</script>-->
+      this.$axios.post("http://localhost:8000/idioms", this.idiomsForm ).then((resp) => {
+        const data = resp.data;
+        if (data.code === 200) {
+          this.idioms = data.data;
+          if(this.idioms.length === 0){
+            this.$message.warning("没有查询到成语");
+          }else {
+            this.$message.success("获取成功");
+          }
+        } else {
+          this.$message.error("获取失败");
+        }
+      })
+    },
 
-<!--<style scoped>-->
-<!--textarea {-->
-<!--  width: 100%;-->
-<!--  height: 100px;-->
-<!--  margin-bottom: 10px;-->
-<!--}-->
+  },
+};
+</script>
 
-<!--.highlighted-text {-->
-<!--  margin-bottom: 10px;-->
-<!--  padding: 10px;-->
-<!--  background-color: #f3f3f3;-->
-<!--}-->
+<style scoped>
+.label {
+  font-weight: bold;
+}
 
-<!--.highlight {-->
-<!--  background-color: yellow;-->
-<!--}-->
+.idiom {
+  color: #FF0000; /* 设置成语的颜色，这里示例为红色 */
+}
+.word-segmentation {
+  margin-top: 50px;
+  text-align: center;
+}
 
-<!--.idiom-card {-->
-<!--  border: 1px solid #ccc;-->
-<!--  border-radius: 4px;-->
-<!--  padding: 10px;-->
-<!--  margin-bottom: 10px;-->
-<!--}-->
+.segment-form {
+  margin-bottom: 20px;
+}
 
-<!--.idiom-header {-->
-<!--  font-weight: bold;-->
-<!--  font-size: 16px;-->
-<!--  margin-bottom: 5px;-->
-<!--}-->
+.word-tag {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
 
-<!--.idiom-info div {-->
-<!--  margin-bottom: 5px;-->
-<!--}-->
-<!--</style>-->
+.segment-history-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.segment-history {
+  margin-bottom: 10px;
+}
+
+.segmented-words {
+  white-space: nowrap;
+}
+</style>
