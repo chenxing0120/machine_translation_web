@@ -13,6 +13,9 @@
         <el-tab-pane label="成语翻译" name="third">
           <Idiom></Idiom>
         </el-tab-pane>
+        <el-tab-pane label="提取关键词" name="forth">
+          <KeyWord></KeyWord>
+        </el-tab-pane>
       </el-tabs>
     </div></el-col>
     <el-col :span="5"><div class="grid-content bg-purple"></div></el-col>
@@ -25,11 +28,13 @@ import Translate from "@/views/Translate";
 import Words from "@/views/Words";
 // import Idioms from "@/views/Idioms";
 import Idiom from "@/views/Idiom";
+import KeyWord from "@/views/KeyWord";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
-  components: {Words, Translate, Idiom},
+  // eslint-disable-next-line vue/no-unused-components
+  components: {Words, Translate, Idiom, KeyWord},
   computed: {
 
   },
