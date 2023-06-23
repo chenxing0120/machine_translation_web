@@ -2,14 +2,27 @@
   <div class="word-detectation">
     <el-form :model="detectForm" label-width="80px" class="detect-form">
       <el-form-item label="原文" class="language-item">
-        <el-input :value="detectForm.inputText" @input="detectForm.inputText = $event" type="textarea" :rows="5" resize="none" placeholder="请输入要识别的内容"></el-input>
+        <el-input
+            :value="detectForm.inputText"
+            @input="detectForm.inputText = $event"
+            type="textarea"
+            :rows="5"
+            resize="none"
+            placeholder="请输入要识别的内容"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="detectLangdete">提交</el-button>
       </el-form-item>
       <el-form-item label="识别结果">
-        <template v-for="(word, index) in detectResult">
-          <el-tag :key="index" class="word-tag">{{ word }}</el-tag>
+        <template v-if="detectResult">
+          <el-dialog
+              title="识别结果"
+              :visible.sync="dialogVisible"
+              width="30%"
+          >
+            <span>{{ `您输入的句子是 ${detectResult}` }}</span>
+          </el-dialog>
         </template>
       </el-form-item>
     </el-form>
@@ -18,57 +31,43 @@
 
 <script>
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
   name: "LangDete",
   data() {
     return {
       detectForm: {
-        inputText: '',
+        inputText: "",
       },
-      detectResult: [],
-      detectHistory: [],
+      detectResult: "",
+      dialogVisible: false,
+      languages: [
+        { value: "zh", label: "中文" },
+        { value: "en", label: "英文" },
+        { value: "ko", label: "韩文" },
+        { value: "ja", label: "日文" },
+      ],
     };
-  },
-  created() {
-    this.getdetectHistory();
   },
   methods: {
     detectLangdete() {
-      this.detectResult = [];
-      if (this.detectForm.inputText === null || this.detectForm.inputText === '') {
+      this.detectResult = "";
+      if (this.detectForm.inputText === null || this.detectForm.inputText === "") {
         this.$message.warning("请输入识别句子");
         return;
       }
-      this.$axios.post('http://localhost:8000/langdete', this.detectForm).then((resp) => {
+      this.$axios.post("http://localhost:8000/langdete", this.detectForm).then((resp) => {
         if (resp.data.code === 200) {
-          this.detectResult = resp.data.data.split(" ");
-          this.$message.success("识别成功");
-
-          const detectRecord = {
-            inputText: this.detectForm.inputText,
-            detectedlangdete: this.detectResult,
-          };
-          this.detectHistory.unshift(detectRecord);
-          if (this.detectHistory.length > 5) {
-            this.detectHistory.pop();
+          const detectedLanguage = resp.data.data;
+          const languageLabel = this.languages.find((language) => language.value === detectedLanguage)?.label;
+          if (languageLabel) {
+            this.detectResult = languageLabel;
+            this.dialogVisible = true;
+          } else {
+            this.$message.error("无法识别语言");
           }
-        }else{
-          this.detectResult = null
+        } else {
           this.$message.error("识别失败");
         }
       });
-    },
-    getdetectHistory() {
-      this.$axios.get('http://localhost:8000/langdeteHistory').then((resp) => {
-        if (resp.data.code === 200) {
-          this.detectHistory = resp.data.data;
-        }
-      }).catch((error) => {
-        console.error('获取识别历史失败', error);
-      });
-    },
-    handleInput(value) {
-      this.detectForm.inputText = value;
     },
   },
 };
@@ -89,23 +88,13 @@ export default {
   margin-bottom: 5px;
 }
 
-.detect-history-container {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 10px;
-  margin-right: 10px;
-}
-
-.detect-history {
-  margin-bottom: 10px;
-}
-
-.detected-langdete {
-  white-space: nowrap;
-}
-
 .language-item {
   flex: 1;
   margin-right: 10px;
+}
+
+.dialog-custom-class {
+  /* 可以在这里设置其他自定义样式 */
+  max-width: 300px; /* 设置为所需的宽度值 */
 }
 </style>
