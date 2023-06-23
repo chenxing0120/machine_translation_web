@@ -101,6 +101,7 @@ export default {
   border: 1px solid #ccc;
   padding: 10px;
   margin-top: 10px;
+  margin-right: 10px;
 }
 
 .extract-history {
@@ -109,5 +110,10 @@ export default {
 
 .extracted-words {
   white-space: nowrap;
+}
+
+.language-item {
+  flex: 1;
+  margin-right: 10px;
 }
 </style>

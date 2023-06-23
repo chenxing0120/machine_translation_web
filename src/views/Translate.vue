@@ -17,10 +17,10 @@
       <el-form-item label="原文" class="language-item">
         <el-input v-model="translateForm.sourceText" type="textarea" :rows="5" resize="none" placeholder="请输入要翻译的内容"></el-input>
       </el-form-item>
-      <el-form-item label="纠错结果">
+      <el-form-item label="纠错结果" class="language-item">
         <el-input v-model="correction" type="textarea" :rows="5" resize="none" placeholder="纠错结果" readonly></el-input>
       </el-form-item>
-      <el-form-item label="翻译结果">
+      <el-form-item label="翻译结果" class="language-item">
         <el-input v-model="translationResult" type="textarea" :rows="5" resize="none" placeholder="翻译结果" readonly></el-input>
       </el-form-item>
       <el-form-item>

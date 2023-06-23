@@ -3,7 +3,7 @@
     <el-row justify="center">
       <el-col :span="24">
         <el-form :model="idiomsForm" label-width="80px" class="input-form">
-          <el-form-item label="输入文本">
+          <el-form-item label="输入文本" class="language-item">
             <el-input v-model="idiomsForm.inputText" type="textarea" :rows="5" resize="none" placeholder="请输入文本内容"></el-input>
           </el-form-item>
           <el-form-item>
@@ -114,5 +114,10 @@ export default {
 
 .segmented-words {
   white-space: nowrap;
+}
+
+.language-item {
+  flex: 1;
+  margin-right: 10px;
 }
 </style>
