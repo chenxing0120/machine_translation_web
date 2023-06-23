@@ -16,6 +16,9 @@
         <el-tab-pane label="提取关键词" name="forth">
           <KeyWord></KeyWord>
         </el-tab-pane>
+        <el-tab-pane label="语种识别" name="fifth">
+          <LangDete></LangDete>
+        </el-tab-pane>
       </el-tabs>
     </div></el-col>
     <el-col :span="5"><div class="grid-content bg-purple"></div></el-col>
@@ -28,12 +31,13 @@ import Translate from "@/views/Translate";
 import Words from "@/views/Words";
 import Idioms from "@/views/Idioms";
 import KeyWord from "@/views/KeyWord";
+import LangDete from "@/views/LangDete";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   // eslint-disable-next-line vue/no-unused-components
-  components: {Words, Translate, Idioms, KeyWord},
+  components: {LangDete, Words, Translate, Idioms, KeyWord},
   computed: {
 
   },

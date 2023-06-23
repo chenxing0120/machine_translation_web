@@ -12,12 +12,6 @@
           <el-tag :key="index" class="word-tag">{{ word }}</el-tag>
         </template>
       </el-form-item>
-      <el-form-item label="识别历史" class="detect-history-container">
-        <div v-for="(history, index) in detectHistory" :key="index" class="detect-history">
-          <p>{{ history.inputText }}</p>
-          <p class="detected-langdete">{{ history.detectedlangdete ? history.detectedlangdete.join(' ') : '' }}</p>
-        </div>
-      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -99,6 +93,7 @@ export default {
   border: 1px solid #ccc;
   padding: 10px;
   margin-top: 10px;
+  margin-right: 10px;
 }
 
 .detect-history {
@@ -107,5 +102,10 @@ export default {
 
 .detected-langdete {
   white-space: nowrap;
+}
+
+.language-item {
+  flex: 1;
+  margin-right: 10px;
 }
 </style>
