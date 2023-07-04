@@ -1,24 +1,39 @@
-# machine_translation
+# 1、项目功能简介
+自然语言处理一个机器翻译系统前端，该系统能够实现自然语言处理中
+语种识别、拼写纠错、机器翻译、句子分词、成语翻译、提取关键词功能。
 
-## Project setup
+# 2、项目启动
+
+### 依赖下载
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### 启动项目
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+### 打包项目
 ```
 yarn build
 ```
+# 3、功能介绍
 
-### Lints and fixes files
-```
-yarn lint
-```
+### 1 功能用例
+![功能用例](./src/img/功能用例.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 2 登录页
+![登录界面](./src/img/登录界面.png)
+
+### 3 拼写纠错和机器翻译
+![拼写纠错和机器翻译](./src/img/拼写纠错和机器翻译.png)
+
+### 4 成语解释
+![成语解释](./src/img/成语解释.png)
+
+### 5 提取关键词
+![提取关键词](./src/img/提取关键词.png)
+
+
+
